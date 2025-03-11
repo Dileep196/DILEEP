@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+    <student>
+        <id>301</id>
+        <name>Rajender</name>
+        <marks>85</marks>
+      
+    </student>
+    <student>
+        <id>302</id>
+        <name>Jane Smith</name>
+        <marks>92</marks>
+      
+
+    </student>
+    <student>
+        <id>303</id>
+        <name>Samuel Clark</name>
+        <marks>78</marks>
+       
+    </student>
+    <student>
+        <id>304</id>
+        <name>Amy Brown</name>
+        <marks>88</marks>
+        
+    </student>
+     <student>
+        <id>305</id>
+        <name>Karthik</name>
+        <marks>96</marks>
+       
+    </student>
+     <student>
+        <id>306</id>
+        <name>Dileep</name>
+        <marks>98</marks>
+      
+    </student>
+     <student>
+        <id>307</id>
+        <name>Godse</name>
+        <marks>90</marks>
+        
+    
+    </student>
+     <student>
+        <id>308</id>
+        <name>Sairam</name>
+        <marks>98</marks>
+     
+    </student>
+     <student>
+        <id>309</id>
+        <name>Samy Brown</name>
+        <marks>88</marks>
+
+    </student>
+     <student>
+        <id>310</id>
+        <name>Ramy Brown</name>
+        <marks>88</marks>
+
+    </student>
+</students>
