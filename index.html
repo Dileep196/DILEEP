@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        #searchBar {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Details</h1>
+
+    <!-- Search bar to filter students by HT.No -->
+    <input type="text" id="searchBar" placeholder="Search by HT.No" onkeyup="searchStudents()">
+
+    <!-- Table to display student details -->
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>HT.No</th>
+                <th>Name</th>
+                <th>Marks</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody id="studentBody">
+            <!-- Student rows will be dynamically loaded here -->
+        </tbody>
+    </table>
+
+    <script>
+        function getGrade(marks) {
+            if (marks >= 90) return "A+";
+            if (marks >= 80) return "A";
+            if (marks >= 70) return "B";
+            if (marks >= 60) return "C";
+            if (marks >= 50) return "D";
+            return "F";
+        }
+
+        function loadXML() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "student.xml", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    let studentTableBody = document.getElementById("studentBody");
+                    if (xhr.status === 200) {
+                        try {
+                            let xmlDoc = xhr.responseXML;
+                            let students = xmlDoc.getElementsByTagName("student");
+                            studentTableBody.innerHTML = "";
+
+                            if (students.length === 0) {
+                                studentTableBody.innerHTML = "<tr><td colspan='4'>No data available</td></tr>";
+                                return;
+                            }
+
+                            for (let i = 0; i < students.length; i++) {
+                                let htNo = students[i].getElementsByTagName("id")[0].textContent.trim();
+                                let name = students[i].getElementsByTagName("name")[0].textContent.trim();
+                                let marks = parseInt(students[i].getElementsByTagName("marks")[0].textContent.trim());
+                                let grade = getGrade(marks);
+
+                                let row = studentTableBody.insertRow();
+                                row.insertCell(0).innerText = htNo;
+                                row.insertCell(1).innerText = name;
+                                row.insertCell(2).innerText = marks;
+                                row.insertCell(3).innerText = grade;
+                            }
+                        } catch (error) {
+                            console.error("Error parsing XML:", error);
+                            studentTableBody.innerHTML = "<tr><td colspan='4'>Failed to load data</td></tr>";
+                        }
+                    } else {
+                        studentTableBody.innerHTML = "<tr><td colspan='4'>Error loading XML file</td></tr>";
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function searchStudents() {
+            let searchQuery = document.getElementById("searchBar").value.toLowerCase();
+            let table = document.getElementById("studentTable");
+            let rows = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let htNo = rows[i].cells[0].innerText.toLowerCase();
+                
+                if (htNo.includes(searchQuery)) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        window.onload = loadXML;
+    </script>
+</body>
+</html>
